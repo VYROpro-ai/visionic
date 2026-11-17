@@ -1,0 +1,2205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Visionic — Web Design & Marketing for Real-Estate Agencies</title>
+  <meta name="description" content="Fast, search-friendly property websites with listings, filters, maps and lead capture, built for real-estate agencies and brokers." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-canvas: #F6F6F4;
+      --bg-surface: #FFFFFF;
+      --bg-subtle: #EFEFEC;
+      --bg-dark: #111111;
+      --text-primary: #111111;
+      --text-secondary: #585856;
+      --text-muted: #868682;
+      --accent: #F06428;
+      --accent-soft: #FFF1EB;
+      --border: #E5E5E0;
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+      --radius-pill: 9999px;
+      --shadow-soft: 0 10px 30px -8px rgba(17, 17, 17, 0.05), 0 4px 12px -2px rgba(17, 17, 17, 0.03);
+      --shadow-hover: 0 20px 40px -12px rgba(17, 17, 17, 0.1);
+      --container: 1240px;
+      --transition: 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-canvas);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      color: var(--text-primary);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: color var(--transition), opacity var(--transition);
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    button, input, select {
+      font-family: inherit;
+      font-size: inherit;
+      color: inherit;
+      border: none;
+      background: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        padding: 0 32px;
+      }
+    }
+
+    /* Typography & Labels */
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-secondary);
+      margin-bottom: 14px;
+    }
+
+    .section-label::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: var(--accent);
+      display: inline-block;
+    }
+
+    .section-header {
+      max-width: 680px;
+      margin-bottom: 48px;
+    }
+
+    .section-header.centered {
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+    }
+
+    .section-title {
+      font-size: clamp(1.85rem, 3.5vw, 2.75rem);
+      margin-bottom: 16px;
+    }
+
+    .section-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+    }
+
+    section {
+      padding: 72px 0;
+    }
+
+    @media (min-width: 992px) {
+      section {
+        padding: 104px 0;
+      }
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 26px;
+      border-radius: var(--radius-pill);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: transform var(--transition), background-color var(--transition), box-shadow var(--transition);
+      white-space: nowrap;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background-color: var(--bg-dark);
+      color: #FFFFFF;
+    }
+
+    .btn-primary:hover {
+      background-color: #262626;
+      box-shadow: 0 8px 20px rgba(17, 17, 17, 0.18);
+    }
+
+    .btn-secondary {
+      background-color: var(--bg-surface);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--bg-subtle);
+    }
+
+    .btn-accent {
+      background-color: var(--accent);
+      color: #FFFFFF;
+    }
+
+    .btn-accent:hover {
+      background-color: #d9531a;
+    }
+
+    /* Sticky Navbar */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background-color: rgba(246, 246, 244, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 76px;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 1.35rem;
+      letter-spacing: -0.03em;
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background-color: var(--bg-dark);
+      color: #FFFFFF;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-links {
+      display: none;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      position: relative;
+      padding: 6px 0;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--text-primary);
+    }
+
+    .nav-links a.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 100%;
+      height: 2px;
+      background-color: var(--text-primary);
+      border-radius: 2px;
+    }
+
+    .nav-actions {
+      display: none;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-login {
+      padding: 10px 20px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border);
+      background-color: var(--bg-surface);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .nav-login:hover {
+      background-color: var(--bg-subtle);
+    }
+
+    .nav-join {
+      padding: 10px 20px;
+      font-size: 0.9rem;
+    }
+
+    .menu-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background-color: var(--bg-surface);
+      cursor: pointer;
+    }
+
+    @media (min-width: 900px) {
+      .nav-links,
+      .nav-actions {
+        display: flex;
+      }
+      .menu-toggle {
+        display: none;
+      }
+    }
+
+    /* Mobile Menu Drawer */
+    .mobile-menu {
+      display: none;
+      background-color: var(--bg-surface);
+      border-bottom: 1px solid var(--border);
+      padding: 20px;
+    }
+
+    .mobile-menu.open {
+      display: block;
+    }
+
+    .mobile-menu ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .mobile-menu a {
+      font-weight: 600;
+      font-size: 1.05rem;
+      display: block;
+      padding: 6px 0;
+    }
+
+    .mobile-menu-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .mobile-menu-actions a {
+      flex: 1;
+      text-align: center;
+    }
+
+    /* 1. HERO */
+    .hero {
+      padding-top: 48px;
+      padding-bottom: 64px;
+      position: relative;
+    }
+
+    .hero-card {
+      background-color: var(--bg-surface);
+      border-radius: var(--radius-xl);
+      padding: 40px 24px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid var(--border);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      background-image: radial-gradient(#E5E5E0 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    @media (min-width: 768px) {
+      .hero-card {
+        padding: 72px 48px 56px;
+      }
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background-color: var(--bg-canvas);
+      border: 1px solid var(--border);
+      padding: 8px 16px;
+      border-radius: var(--radius-pill);
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+    }
+
+    .hero-eyebrow-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--accent);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      max-width: 860px;
+      margin: 0 auto 20px;
+      letter-spacing: -0.035em;
+    }
+
+    .hero-subhead {
+      font-size: clamp(1.02rem, 1.8vw, 1.2rem);
+      color: var(--text-secondary);
+      max-width: 660px;
+      margin: 0 auto 32px;
+    }
+
+    .hero-ctas {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .micro-trust {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-bottom: 40px;
+    }
+
+    /* Search / Filter Bar */
+    .search-bar-wrap {
+      max-width: 880px;
+      margin: 0 auto;
+      background-color: var(--bg-canvas);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 12px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    @media (min-width: 768px) {
+      .search-bar-wrap {
+        border-radius: var(--radius-pill);
+        padding: 10px 10px 10px 28px;
+      }
+    }
+
+    .search-form {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      align-items: center;
+    }
+
+    @media (min-width: 768px) {
+      .search-form {
+        grid-template-columns: 1fr 1fr 1fr auto;
+        gap: 16px;
+      }
+    }
+
+    .search-field {
+      text-align: left;
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    @media (min-width: 768px) {
+      .search-field {
+        padding: 4px 16px 4px 0;
+        border-bottom: none;
+        border-right: 1px solid var(--border);
+      }
+      .search-field:nth-child(3) {
+        border-right: none;
+      }
+    }
+
+    .search-field label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .search-field input {
+      width: 100%;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      outline: none;
+    }
+
+    .search-field input::placeholder {
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .search-submit {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background-color: var(--bg-dark);
+      color: #FFFFFF;
+      border-radius: var(--radius-pill);
+      padding: 14px 26px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color var(--transition);
+    }
+
+    .search-submit:hover {
+      background-color: var(--accent);
+    }
+
+    /* KPI Band */
+    .kpi-band {
+      margin-top: 28px;
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      box-shadow: var(--shadow-soft);
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    @media (min-width: 640px) {
+      .kpi-band {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 992px) {
+      .kpi-band {
+        grid-template-columns: repeat(4, 1fr);
+        padding: 32px 40px;
+      }
+    }
+
+    .kpi-item {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+    }
+
+    @media (min-width: 992px) {
+      .kpi-item:not(:last-child) {
+        border-right: 1px solid var(--border);
+        padding-right: 20px;
+      }
+    }
+
+    .kpi-num {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 2.25rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+
+    .kpi-label {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      line-height: 1.35;
+    }
+
+    /* Cards & Grids */
+    .grid-4 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    @media (min-width: 640px) {
+      .grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .grid-4 {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    @media (min-width: 768px) {
+      .grid-3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .card {
+      background-color: var(--bg-surface);
+      border-radius: var(--radius-lg);
+      padding: 32px 28px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .icon-box {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background-color: var(--bg-dark);
+      color: #FFFFFF;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+
+    .card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+
+    /* 3. HOW IT WORKS */
+    .step-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 0.85rem;
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      background-color: var(--accent-soft);
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    /* 4. AUTOMATION / LEAD FLOW */
+    .flow-card {
+      position: relative;
+    }
+
+    .flow-num {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: var(--bg-dark);
+      color: #FFFFFF;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .section-note {
+      margin-top: 28px;
+      text-align: center;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border);
+      padding: 14px 24px;
+      border-radius: var(--radius-pill);
+      display: inline-block;
+    }
+
+    .note-wrapper {
+      text-align: center;
+    }
+
+    /* 5. BY THE NUMBERS */
+    .numbers-box {
+      background-color: var(--bg-surface);
+      border-radius: var(--radius-xl);
+      padding: 48px 28px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+    }
+
+    @media (min-width: 768px) {
+      .numbers-box {
+        padding: 64px 56px;
+      }
+    }
+
+    .stat-card {
+      background-color: var(--bg-canvas);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      border: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .stat-big {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(2.5rem, 4vw, 3.5rem);
+      font-weight: 800;
+      color: var(--text-primary);
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      margin-bottom: 8px;
+    }
+
+    .stat-desc {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    /* 6. SAMPLE LISTINGS */
+    .listings-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .results-count {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-secondary);
+    }
+
+    .reset-filter-btn {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--accent);
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .reset-filter-btn.visible {
+      display: inline-flex;
+    }
+
+    .listing-card {
+      background-color: var(--bg-surface);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      transition: transform var(--transition), box-shadow var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .listing-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .listing-media {
+      position: relative;
+      height: 230px;
+      overflow: hidden;
+      background-color: var(--bg-subtle);
+    }
+
+    .listing-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .listing-card:hover .listing-media img {
+      transform: scale(1.04);
+    }
+
+    .listing-badge {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background-color: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(6px);
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .listing-body {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .listing-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .listing-title {
+      font-size: 1.18rem;
+      font-weight: 700;
+    }
+
+    .listing-location {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .listing-specs {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 18px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .spec-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .listing-footer {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .listing-price {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+
+    .listing-cta {
+      padding: 8px 16px;
+      border-radius: var(--radius-pill);
+      background-color: var(--bg-canvas);
+      border: 1px solid var(--border);
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .no-results {
+      display: none;
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 48px 24px;
+      text-align: center;
+      grid-column: 1 / -1;
+    }
+
+    .no-results.visible {
+      display: block;
+    }
+
+    .no-results h3 {
+      margin-bottom: 8px;
+    }
+
+    .no-results p {
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+    }
+
+    /* 7. INTEGRATIONS */
+    .chips-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      max-width: 880px;
+      margin: 0 auto 28px;
+    }
+
+    .chip {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-pill);
+      padding: 14px 24px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.98rem;
+      box-shadow: var(--shadow-soft);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: transform var(--transition), border-color var(--transition);
+    }
+
+    .chip:hover {
+      transform: translateY(-2px);
+      border-color: var(--text-primary);
+    }
+
+    .chip-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--accent);
+    }
+
+    /* 8. TESTIMONIALS */
+    .rating-block {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border);
+      padding: 12px 24px;
+      border-radius: var(--radius-pill);
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 40px;
+    }
+
+    .stars {
+      color: var(--accent);
+      display: inline-flex;
+      gap: 3px;
+    }
+
+    .rating-text {
+      font-weight: 600;
+      font-size: 0.92rem;
+    }
+
+    .topic-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      background-color: var(--accent-soft);
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      margin-bottom: 16px;
+    }
+
+    .quote-placeholder {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      padding: 16px;
+      border-radius: var(--radius-md);
+      background-color: var(--bg-canvas);
+      border: 1px dashed var(--border);
+    }
+
+    /* 9. PRICING */
+    .pricing-card {
+      background-color: var(--bg-surface);
+      border-radius: var(--radius-xl);
+      padding: 36px 30px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .pricing-card.popular {
+      border: 2px solid var(--bg-dark);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .popular-badge {
+      position: absolute;
+      top: -14px;
+      right: 28px;
+      background-color: var(--accent);
+      color: #FFFFFF;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+    }
+
+    .pricing-tier {
+      font-size: 1.35rem;
+      margin-bottom: 8px;
+    }
+
+    .pricing-price {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 2.35rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 4px;
+    }
+
+    .pricing-price span {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .pricing-features {
+      list-style: none;
+      margin: 24px 0 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      flex: 1;
+    }
+
+    .pricing-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+
+    .check-icon {
+      color: var(--accent);
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+
+    /* 10. FAQ */
+    .faq-list {
+      max-width: 820px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .faq-item {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .faq-trigger {
+      width: 100%;
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      text-align: left;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 1.08rem;
+      cursor: pointer;
+    }
+
+    .faq-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: var(--bg-canvas);
+      border: 1px solid var(--border);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform var(--transition), background-color var(--transition);
+    }
+
+    .faq-item.active .faq-icon {
+      transform: rotate(45deg);
+      background-color: var(--bg-dark);
+      color: #FFFFFF;
+    }
+
+    .faq-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .faq-content-inner {
+      padding: 0 28px 24px;
+      color: var(--text-secondary);
+      font-size: 0.98rem;
+    }
+
+    /* 11. LOCATIONS */
+    .locations-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    @media (min-width: 768px) {
+      .locations-grid {
+        grid-template-columns: repeat(5, 1fr);
+      }
+    }
+
+    .location-card {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px 20px;
+      text-align: center;
+      box-shadow: var(--shadow-soft);
+      transition: transform var(--transition);
+    }
+
+    .location-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .location-pin {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background-color: var(--accent-soft);
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+
+    .location-name {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    /* 12. FINAL CTA */
+    .cta-band {
+      background-color: var(--bg-dark);
+      color: #FFFFFF;
+      border-radius: var(--radius-xl);
+      padding: 56px 24px;
+      text-align: center;
+      box-shadow: var(--shadow-hover);
+    }
+
+    @media (min-width: 768px) {
+      .cta-band {
+        padding: 80px 48px;
+      }
+    }
+
+    .cta-band h2 {
+      color: #FFFFFF;
+      font-size: clamp(2rem, 4vw, 3rem);
+      max-width: 680px;
+      margin: 0 auto 16px;
+    }
+
+    .cta-band p {
+      color: #B8B8B3;
+      font-size: 1.08rem;
+      max-width: 600px;
+      margin: 0 auto 32px;
+    }
+
+    .cta-band-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .btn-light {
+      background-color: #FFFFFF;
+      color: var(--bg-dark);
+    }
+
+    .btn-light:hover {
+      background-color: var(--accent);
+      color: #FFFFFF;
+    }
+
+    .btn-outline-light {
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      color: #FFFFFF;
+      background-color: rgba(255, 255, 255, 0.06);
+    }
+
+    .btn-outline-light:hover {
+      background-color: rgba(255, 255, 255, 0.14);
+    }
+
+    /* 13. FOOTER */
+    .site-footer {
+      padding: 64px 0 40px;
+      border-top: 1px solid var(--border);
+      background-color: var(--bg-surface);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+      margin-bottom: 48px;
+    }
+
+    @media (min-width: 768px) {
+      .footer-grid {
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+      }
+    }
+
+    .footer-brand p {
+      margin-top: 14px;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      max-width: 320px;
+    }
+
+    .footer-col h4 {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-col a {
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+    }
+
+    .footer-col a:hover {
+      color: var(--text-primary);
+    }
+
+    .footer-bottom {
+      padding-top: 28px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- STICKY NAV -->
+  <header class="site-header">
+    <div class="container nav-inner">
+      <a href="#home" class="logo">
+        <span class="logo-mark">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        </span>
+        Visionic
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#home" class="active">Home</a></li>
+        <li><a href="#properties">Properties</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="#contact" class="nav-login">Login</a>
+        <a href="#contact" class="btn btn-primary nav-join">Join Now &rsaquo;</a>
+      </div>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu" aria-expanded="false">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+    </div>
+
+    <div class="mobile-menu" id="mobileMenu">
+      <ul>
+        <li><a href="#home" class="mobile-link">Home</a></li>
+        <li><a href="#properties" class="mobile-link">Properties</a></li>
+        <li><a href="#about" class="mobile-link">About</a></li>
+        <li><a href="#contact" class="mobile-link">Contact</a></li>
+      </ul>
+      <div class="mobile-menu-actions">
+        <a href="#contact" class="nav-login mobile-link">Login</a>
+        <a href="#contact" class="btn btn-primary nav-join mobile-link">Join Now</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- 1. HERO -->
+    <section class="hero" id="home">
+      <div class="container">
+        <div class="hero-card">
+          <div class="hero-eyebrow">
+            <span class="hero-eyebrow-dot"></span>
+            Web design &amp; marketing for real-estate agencies
+          </div>
+          <h1>A Real Estate Website That Turns Visitors Into Viewings.</h1>
+          <p class="hero-subhead">Fast, search-friendly property websites with listings, filters, maps and lead capture, built for real-estate agencies and brokers.</p>
+          <div class="hero-ctas">
+            <a href="#contact" class="btn btn-primary">Book a Free Strategy Call &rsaquo;</a>
+            <a href="#properties" class="btn btn-secondary">See Our Work</a>
+          </div>
+          <p class="micro-trust">No templates. No bloated plugins. Built for speed, SEO &amp; conversions.</p>
+
+          <!-- Search / Filter Bar -->
+          <div class="search-bar-wrap">
+            <form class="search-form" id="listingSearchForm" onsubmit="return false;">
+              <div class="search-field">
+                <label for="filterLocation">Location</label>
+                <input type="text" id="filterLocation" placeholder="All Locations (e.g. Dubai)" autocomplete="off" />
+              </div>
+              <div class="search-field">
+                <label for="filterType">Property Type</label>
+                <input type="text" id="filterType" placeholder="All (e.g. Villa, Bungalow)" autocomplete="off" />
+              </div>
+              <div class="search-field">
+                <label for="filterBudget">Budget</label>
+                <input type="text" id="filterBudget" placeholder="e.g. $2,000, $216, KES" autocomplete="off" />
+              </div>
+              <button type="submit" class="search-submit" id="searchBtn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                Search
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- KPI Band -->
+        <div class="kpi-band">
+          <div class="kpi-item">
+            <div class="kpi-num">90+</div>
+            <div class="kpi-label">real-estate websites launched</div>
+          </div>
+          <div class="kpi-item">
+            <div class="kpi-num">3.2x</div>
+            <div class="kpi-label">average enquiry increase (first 90 days)</div>
+          </div>
+          <div class="kpi-item">
+            <div class="kpi-num">48 hrs</div>
+            <div class="kpi-label">typical launch for the Starter site</div>
+          </div>
+          <div class="kpi-item">
+            <div class="kpi-num">4.9</div>
+            <div class="kpi-label">average client rating</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. WHY VISIONIC -->
+    <section id="about">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Why Visionic</span>
+          <h2 class="section-title">Most real-estate websites look good. Few of them sell.</h2>
+        </div>
+
+        <div class="grid-4">
+          <div class="card">
+            <div class="icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+            </div>
+            <h3>Built to convert</h3>
+            <p>Every page designed around one goal: more viewings and more qualified enquiries.</p>
+          </div>
+
+          <div class="card">
+            <div class="icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+            </div>
+            <h3>Fast &amp; search-ready</h3>
+            <p>Loads in under 2 seconds, with local SEO, schema markup, Core Web Vitals and Google Business Profile setup.</p>
+          </div>
+
+          <div class="card">
+            <div class="icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+            </div>
+            <h3>Property-first design</h3>
+            <p>IDX/CRM-ready listings, filters, maps, WhatsApp and viewing booking built in.</p>
+          </div>
+
+          <div class="card">
+            <div class="icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            </div>
+            <h3>Automation that saves time</h3>
+            <p>CRM sync, email and WhatsApp follow-ups, showing requests and lead routing, all automatic.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. HOW IT WORKS -->
+    <section>
+      <div class="container">
+        <div class="section-header centered">
+          <span class="section-label">How It Works</span>
+          <h2 class="section-title">From first call to a live website — without the usual chaos.</h2>
+        </div>
+
+        <div class="grid-3">
+          <div class="card">
+            <span class="step-badge">01</span>
+            <h3>Discovery call</h3>
+            <p>30 minutes — we learn about your agency, your listings and your goals.</p>
+          </div>
+
+          <div class="card">
+            <span class="step-badge">02</span>
+            <h3>Design &amp; build</h3>
+            <p>We design and build your site and launch it in days, not months.</p>
+          </div>
+
+          <div class="card">
+            <span class="step-badge">03</span>
+            <h3>Launch &amp; grow</h3>
+            <p>Your site goes live, leads start flowing, and we keep optimising it.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. AUTOMATION / LEAD FLOW -->
+    <section>
+      <div class="container">
+        <div class="section-header centered">
+          <span class="section-label">Automation &amp; Lead Flow</span>
+          <h2 class="section-title">Every enquiry captured. Every follow-up automatic.</h2>
+        </div>
+
+        <div class="grid-3">
+          <div class="card flow-card">
+            <div class="flow-num">1</div>
+            <p>A visitor searches &amp; filters your listings</p>
+          </div>
+
+          <div class="card flow-card">
+            <div class="flow-num">2</div>
+            <p>Their enquiry is captured instantly via WhatsApp, email or your CRM</p>
+          </div>
+
+          <div class="card flow-card">
+            <div class="flow-num">3</div>
+            <p>Follow-up runs on autopilot — reminders, viewing bookings and nurture messages</p>
+          </div>
+        </div>
+
+        <div class="note-wrapper">
+          <p class="section-note">Works with your CRM — or we set one up for you.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. BY THE NUMBERS -->
+    <section>
+      <div class="container">
+        <div class="numbers-box">
+          <div class="section-header centered">
+            <span class="section-label">By The Numbers</span>
+            <h2 class="section-title">Real results, not just pretty pixels.</h2>
+          </div>
+
+          <div class="grid-3">
+            <div class="stat-card">
+              <div class="stat-big">90+</div>
+              <div class="stat-desc">websites launched</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-big">3.2x</div>
+              <div class="stat-desc">average enquiry increase</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-big">48 hrs</div>
+              <div class="stat-desc">Starter launch</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. SAMPLE LISTINGS -->
+    <section id="properties">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Sample listings</span>
+          <h2 class="section-title">Sample listings</h2>
+          <p class="section-subtitle">Interactive demo grid showing how your property cards, instant search and filtering work on a Visionic website.</p>
+        </div>
+
+        <div class="listings-toolbar">
+          <div class="results-count" id="resultsCount">6 SAMPLE LISTINGS SHOWN</div>
+          <button type="button" class="reset-filter-btn" id="resetFilterBtn">Clear filters &times;</button>
+        </div>
+
+        <div class="grid-3" id="listingsGrid">
+          <!-- Card 1 -->
+          <article class="listing-card" data-title="Luxury Oceanfront Bungalow" data-type="Bungalow Luxury Oceanfront" data-location="Oceanfront Coastal USA" data-price="$20,000 20000">
+            <div class="listing-media">
+              <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=900&q=80" alt="Luxury Oceanfront Bungalow" loading="lazy" />
+              <span class="listing-badge">Sample Listing</span>
+            </div>
+            <div class="listing-body">
+              <div class="listing-header">
+                <h3 class="listing-title">Luxury Oceanfront Bungalow</h3>
+              </div>
+              <div class="listing-specs">
+                <span class="spec-item">3 Beds</span>
+                <span class="spec-item">2 Baths</span>
+                <span class="spec-item">1,500 sq.ft</span>
+              </div>
+              <div class="listing-footer">
+                <span class="listing-price">$20,000</span>
+                <span class="listing-cta">Sample Demo</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 2 -->
+          <article class="listing-card" data-title="Emerald Residences" data-type="Residence Apartment" data-location="Dubai UAE" data-price="$2,000/month 2000">
+            <div class="listing-media">
+              <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=900&q=80" alt="Emerald Residences" loading="lazy" />
+              <span class="listing-badge">Sample Listing</span>
+            </div>
+            <div class="listing-body">
+              <div class="listing-header">
+                <h3 class="listing-title">Emerald Residences</h3>
+              </div>
+              <div class="listing-specs">
+                <span class="spec-item">3 Beds</span>
+                <span class="spec-item">2 Baths</span>
+                <span class="spec-item">1,850 sq.ft</span>
+              </div>
+              <div class="listing-footer">
+                <span class="listing-price">$2,000/month</span>
+                <span class="listing-cta">Sample Demo</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 3 -->
+          <article class="listing-card" data-title="Dubai Villa" data-type="Villa" data-location="Dubai UAE" data-price="$216 per night 216">
+            <div class="listing-media">
+              <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=900&q=80" alt="Dubai Villa" loading="lazy" />
+              <span class="listing-badge">Sample Listing</span>
+            </div>
+            <div class="listing-body">
+              <div class="listing-header">
+                <h3 class="listing-title">Dubai Villa</h3>
+              </div>
+              <div class="listing-specs">
+                <span class="spec-item">2 Beds</span>
+                <span class="spec-item">2 Baths</span>
+                <span class="spec-item">1,400 sq.ft</span>
+              </div>
+              <div class="listing-footer">
+                <span class="listing-price">$216 per night</span>
+                <span class="listing-cta">Sample Demo</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 4 -->
+          <article class="listing-card" data-title="Dubai Villa" data-type="Villa" data-location="Dubai UAE" data-price="$320 per night 320">
+            <div class="listing-media">
+              <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=80" alt="Dubai Villa" loading="lazy" />
+              <span class="listing-badge">Sample Listing</span>
+            </div>
+            <div class="listing-body">
+              <div class="listing-header">
+                <h3 class="listing-title">Dubai Villa</h3>
+              </div>
+              <div class="listing-specs">
+                <span class="spec-item">4 Beds</span>
+                <span class="spec-item">3 Baths</span>
+                <span class="spec-item">2,400 sq.ft</span>
+              </div>
+              <div class="listing-footer">
+                <span class="listing-price">$320 per night</span>
+                <span class="listing-cta">Sample Demo</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 5 -->
+          <article class="listing-card" data-title="Dubai Villa" data-type="Villa" data-location="Dubai UAE" data-price="$678 per night 678">
+            <div class="listing-media">
+              <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=900&q=80" alt="Dubai Villa" loading="lazy" />
+              <span class="listing-badge">Sample Listing</span>
+            </div>
+            <div class="listing-body">
+              <div class="listing-header">
+                <h3 class="listing-title">Dubai Villa</h3>
+              </div>
+              <div class="listing-specs">
+                <span class="spec-item">5 Beds</span>
+                <span class="spec-item">5 Baths</span>
+                <span class="spec-item">3,800 sq.ft</span>
+              </div>
+              <div class="listing-footer">
+                <span class="listing-price">$678 per night</span>
+                <span class="listing-cta">Sample Demo</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 6 -->
+          <article class="listing-card" data-title="Modern Family Home" data-type="Home Residential Family" data-location="Nairobi Kenya" data-price="KES 250,000 250000">
+            <div class="listing-media">
+              <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80" alt="Modern Family Home" loading="lazy" />
+              <span class="listing-badge">Sample Listing</span>
+            </div>
+            <div class="listing-body">
+              <div class="listing-header">
+                <h3 class="listing-title">Modern Family Home</h3>
+              </div>
+              <div class="listing-specs">
+                <span class="spec-item">4 Beds</span>
+                <span class="spec-item">4 Baths</span>
+                <span class="spec-item">2,600 sq.ft</span>
+              </div>
+              <div class="listing-footer">
+                <span class="listing-price">KES 250,000</span>
+                <span class="listing-cta">Sample Demo</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- No results state -->
+          <div class="no-results" id="noResultsMessage">
+            <h3>No sample listings match your filter</h3>
+            <p>Try searching for "Dubai", "Villa", "Bungalow", "$20,000", or "KES".</p>
+            <button type="button" class="btn btn-primary" id="noResultsResetBtn">Show All Sample Listings</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. INTEGRATIONS -->
+    <section>
+      <div class="container">
+        <div class="section-header centered">
+          <span class="section-label">Integrations</span>
+          <h2 class="section-title">Plays nicely with the tools you already use.</h2>
+        </div>
+
+        <div class="chips-wrap">
+          <div class="chip"><span class="chip-dot"></span>HubSpot</div>
+          <div class="chip"><span class="chip-dot"></span>Salesforce</div>
+          <div class="chip"><span class="chip-dot"></span>Zoho CRM</div>
+          <div class="chip"><span class="chip-dot"></span>Pipedrive</div>
+          <div class="chip"><span class="chip-dot"></span>Mailchimp</div>
+          <div class="chip"><span class="chip-dot"></span>WhatsApp Business</div>
+          <div class="chip"><span class="chip-dot"></span>Google Analytics</div>
+          <div class="chip"><span class="chip-dot"></span>Zapier</div>
+        </div>
+
+        <div class="note-wrapper">
+          <p class="section-note">Don't see your tool? Ask us — we integrate with most CRMs and listing platforms.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. TESTIMONIALS -->
+    <section>
+      <div class="container">
+        <div class="section-header centered">
+          <span class="section-label">Client Reviews</span>
+          <h2 class="section-title">What agencies say about working with Visionic</h2>
+          <div style="margin-top: 20px;">
+            <div class="rating-block">
+              <span class="stars" aria-label="5 out of 5 stars">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+              </span>
+              <span class="rating-text">4.9 average rating from client reviews</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-4">
+          <div class="card">
+            <span class="topic-tag">Faster enquiries</span>
+            <p class="quote-placeholder">Add a real client quote here.</p>
+          </div>
+          <div class="card">
+            <span class="topic-tag">Easy communication</span>
+            <p class="quote-placeholder">Add a real client quote here.</p>
+          </div>
+          <div class="card">
+            <span class="topic-tag">Smooth listing/CRM setup</span>
+            <p class="quote-placeholder">Add a real client quote here.</p>
+          </div>
+          <div class="card">
+            <span class="topic-tag">Design quality</span>
+            <p class="quote-placeholder">Add a real client quote here.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. PRICING -->
+    <section id="pricing">
+      <div class="container">
+        <div class="section-header centered">
+          <span class="section-label">Pricing</span>
+          <h2 class="section-title">Simple, transparent pricing.</h2>
+        </div>
+
+        <div class="grid-3">
+          <!-- Starter -->
+          <div class="pricing-card">
+            <h3 class="pricing-tier">Starter</h3>
+            <div class="pricing-price">from $1,900 <span>one-time</span></div>
+            <ul class="pricing-features">
+              <li>
+                <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                5-page website
+              </li>
+              <li>
+                <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Property listings &amp; filters
+              </li>
+              <li>
+                <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Contact &amp; enquiry forms
+              </li>
+              <li>
+                <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Mobile-first design
+              </li>
+              <li>
+                <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Basic SEO setup
+              </li>
+              <li>
+                <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Launch in ~48 hours
+              </li>
+            </ul>
+            <a href="#contact" class="btn btn-secondary">Book a Free Strategy Call</a>
+          </div>
+
+          <!-- Growth -->
+          <div class="pricing-card popular">
+            <span class="popular-badge">MOST POPULAR</span>
+            <h3 class="pricing-tier">Growth</h3>
+            <div class="pricing-price">from $3,900 <span>one-time</span></div>
+            <ul class="pricing-features">
+              <li>
+                <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Everything in Starter, plus:
+              </li>
+              <li>
+                <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Map search &amp; saved homes
+              </li>
+              <li>
+                <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                CRM + WhatsApp integration
+              </li>
+              <li>
+                <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Automated follow-ups
+              </li>
+              <li>
+                <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Blog &amp; local SEO pages
+              </li>
+              <li>
+                <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Analytics dashboard
+              </li>
+            </ul>
+            <a href="#contact" class="btn btn-primary">Book a Free Strategy Call</a>
+          </div>
+
+          <!-- Scale -->
+          <div class="pricing-card">
+            <h3 class="pricing-tier">Scale</h3>
+            <div class="pricing-price">from $7,500 <span>one-time</span></div>
+            <ul class="pricing-features">
+              <li>
+                <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Everything in Growth, plus:
+              </li>
+              <li>
+                <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Custom design system
+              </li>
+              <li>
+                <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Multi-location / multi-language
+              </li>
+              <li>
+                <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                IDX / MLS feed integration
+              </li>
+              <li>
+                <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Dedicated account manager
+              </li>
+              <li>
+                <svg class="check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Priority support
+              </li>
+            </ul>
+            <a href="#contact" class="btn btn-secondary">Book a Free Strategy Call</a>
+          </div>
+        </div>
+
+        <div class="note-wrapper">
+          <p class="section-note">Need something custom? Book a free call and we'll scope it together.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. FAQ -->
+    <section id="faq">
+      <div class="container">
+        <div class="section-header centered">
+          <span class="section-label">FAQ</span>
+          <h2 class="section-title">Frequently Asked Questions</h2>
+        </div>
+
+        <div class="faq-list" id="faqAccordion">
+          <!-- Item 1 (open by default) -->
+          <div class="faq-item active">
+            <button class="faq-trigger" type="button" aria-expanded="true">
+              <span>How fast can my website launch?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-content" style="max-height: 200px;">
+              <div class="faq-content-inner">
+                Starter sites typically launch in ~48 hours; Growth in 1-2 weeks; Scale in 3-4 weeks.
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="faq-item">
+            <button class="faq-trigger" type="button" aria-expanded="false">
+              <span>Do you write the content and source photos?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-content">
+              <div class="faq-content-inner">
+                Yes, we can write your copy and source imagery for you.
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="faq-item">
+            <button class="faq-trigger" type="button" aria-expanded="false">
+              <span>Can you redesign my existing website?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-content">
+              <div class="faq-content-inner">
+                Yes, and we keep your SEO and content where it matters.
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 4 -->
+          <div class="faq-item">
+            <button class="faq-trigger" type="button" aria-expanded="false">
+              <span>Will my website rank on Google?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-content">
+              <div class="faq-content-inner">
+                Yes, technical SEO, local SEO and schema markup are included.
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 5 -->
+          <div class="faq-item">
+            <button class="faq-trigger" type="button" aria-expanded="false">
+              <span>Is hosting and domain setup included?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-content">
+              <div class="faq-content-inner">
+                Yes, hosting, SSL and domain setup are included.
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 6 -->
+          <div class="faq-item">
+            <button class="faq-trigger" type="button" aria-expanded="false">
+              <span>What do you need from me to start?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-content">
+              <div class="faq-content-inner">
+                A 30-minute discovery call, your logo and listings, and access to your current site and CRM.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11. LOCATIONS -->
+    <section>
+      <div class="container">
+        <div class="section-header centered">
+          <span class="section-label">Global Markets</span>
+          <h2 class="section-title">Real estate web design, wherever you are.</h2>
+        </div>
+
+        <div class="locations-grid">
+          <div class="location-card">
+            <div class="location-pin">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            </div>
+            <div class="location-name">USA</div>
+          </div>
+
+          <div class="location-card">
+            <div class="location-pin">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            </div>
+            <div class="location-name">UK</div>
+          </div>
+
+          <div class="location-card">
+            <div class="location-pin">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            </div>
+            <div class="location-name">UAE</div>
+          </div>
+
+          <div class="location-card">
+            <div class="location-pin">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            </div>
+            <div class="location-name">Australia</div>
+          </div>
+
+          <div class="location-card">
+            <div class="location-pin">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            </div>
+            <div class="location-name">Bangladesh</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12. FINAL CTA -->
+    <section id="contact">
+      <div class="container">
+        <div class="cta-band">
+          <h2>Take Control of Your Property Brand Today</h2>
+          <p>Tell us about your project and we'll show you how a better website can bring in more qualified leads. No pressure, just a free call.</p>
+          <div class="cta-band-buttons">
+            <a href="#contact" class="btn btn-light">Book a Free Call &rsaquo;</a>
+            <a href="#properties" class="btn btn-outline-light">View Case Studies</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 13. FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#home" class="logo">
+            <span class="logo-mark">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            </span>
+            Visionic
+          </a>
+          <p>Web design &amp; marketing for real-estate agencies.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#properties">Properties</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="#about">Web Design</a></li>
+            <li><a href="#about">SEO</a></li>
+            <li><a href="#about">CRM &amp; Automation</a></li>
+            <li><a href="#about">IDX Integration</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#contact">Book a Free Call</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>&copy; 2026 Visionic. All rights reserved.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- VANILLA JAVASCRIPT -->
+  <script>
+    (function () {
+      // 1. Mobile Menu Toggle
+      var menuToggle = document.getElementById('menuToggle');
+      var mobileMenu = document.getElementById('mobileMenu');
+      var mobileLinks = document.querySelectorAll('.mobile-link');
+
+      if (menuToggle && mobileMenu) {
+        menuToggle.addEventListener('click', function () {
+          var isOpen = mobileMenu.classList.toggle('open');
+          menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+
+        mobileLinks.forEach(function (link) {
+          link.addEventListener('click', function () {
+            mobileMenu.classList.remove('open');
+            menuToggle.setAttribute('aria-expanded', 'false');
+          });
+        });
+      }
+
+      // 2. Live Search / Filter for Sample Listings
+      var filterLocation = document.getElementById('filterLocation');
+      var filterType = document.getElementById('filterType');
+      var filterBudget = document.getElementById('filterBudget');
+      var searchForm = document.getElementById('listingSearchForm');
+      var listingCards = Array.prototype.slice.call(document.querySelectorAll('.listing-card'));
+      var resultsCount = document.getElementById('resultsCount');
+      var noResultsMessage = document.getElementById('noResultsMessage');
+      var resetFilterBtn = document.getElementById('resetFilterBtn');
+      var noResultsResetBtn = document.getElementById('noResultsResetBtn');
+
+      function filterListings() {
+        var locQuery = (filterLocation.value || '').trim().toLowerCase();
+        var typeQuery = (filterType.value || '').trim().toLowerCase();
+        var budgetQuery = (filterBudget.value || '').trim().toLowerCase();
+
+        var visibleCount = 0;
+
+        listingCards.forEach(function (card) {
+          var cardText = (
+            card.getAttribute('data-title') + ' ' +
+            card.getAttribute('data-type') + ' ' +
+            card.getAttribute('data-location') + ' ' +
+            card.getAttribute('data-price') + ' ' +
+            card.textContent
+          ).toLowerCase();
+
+          var matchesLoc = !locQuery || cardText.indexOf(locQuery) !== -1;
+          var matchesType = !typeQuery || cardText.indexOf(typeQuery) !== -1;
+          var matchesBudget = !budgetQuery || cardText.indexOf(budgetQuery) !== -1;
+
+          if (matchesLoc && matchesType && matchesBudget) {
+            card.style.display = 'flex';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        resultsCount.textContent = visibleCount + (visibleCount === 1 ? ' SAMPLE LISTING SHOWN' : ' SAMPLE LISTINGS SHOWN');
+
+        var hasActiveFilter = Boolean(locQuery || typeQuery || budgetQuery);
+        if (hasActiveFilter) {
+          resetFilterBtn.classList.add('visible');
+        } else {
+          resetFilterBtn.classList.remove('visible');
+        }
+
+        if (visibleCount === 0) {
+          noResultsMessage.classList.add('visible');
+        } else {
+          noResultsMessage.classList.remove('visible');
+        }
+      }
+
+      function clearFilters() {
+        filterLocation.value = '';
+        filterType.value = '';
+        filterBudget.value = '';
+        filterListings();
+      }
+
+      [filterLocation, filterType, filterBudget].forEach(function (input) {
+        if (input) {
+          input.addEventListener('input', filterListings);
+        }
+      });
+
+      if (searchForm) {
+        searchForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+          filterListings();
+          var propSection = document.getElementById('properties');
+          if (propSection) {
+            propSection.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      }
+
+      if (resetFilterBtn) {
+        resetFilterBtn.addEventListener('click', clearFilters);
+      }
+      if (noResultsResetBtn) {
+        noResultsResetBtn.addEventListener('click', clearFilters);
+      }
+
+      // 3. FAQ Accordion
+      var faqItems = document.querySelectorAll('.faq-item');
+
+      faqItems.forEach(function (item) {
+        var trigger = item.querySelector('.faq-trigger');
+        var content = item.querySelector('.faq-content');
+
+        trigger.addEventListener('click', function () {
+          var isOpen = item.classList.contains('active');
+
+          // Close all items
+          faqItems.forEach(function (otherItem) {
+            otherItem.classList.remove('active');
+            otherItem.querySelector('.faq-trigger').setAttribute('aria-expanded', 'false');
+            otherItem.querySelector('.faq-content').style.maxHeight = null;
+          });
+
+          // Open clicked if it was closed
+          if (!isOpen) {
+            item.classList.add('active');
+            trigger.setAttribute('aria-expanded', 'true');
+            content.style.maxHeight = content.scrollHeight + 'px';
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
